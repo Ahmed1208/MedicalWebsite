@@ -9,6 +9,8 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jakarta.ws.rs.NotFoundException;
 
+import java.util.List;
+
 public class CustomerService {
 
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("medicalwebsite");
@@ -49,6 +51,15 @@ public class CustomerService {
             }
 
             return customer;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Customer> getAllCustomers() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return customerDAO.findAll(em);
         } finally {
             em.close();
         }
